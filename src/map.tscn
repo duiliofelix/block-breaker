@@ -1,0 +1,127 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/scripts/map.gd" type="Script" id=3]
+[ext_resource path="res://src/scripts/BrickSpawner.gd" type="Script" id=4]
+[ext_resource path="res://src/Brick.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 1, 540 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 960, 1 )
+
+[node name="Map" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 960, 1000 )
+speed = 1000
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2( 0, 540 )
+collision_layer = 8
+collision_mask = 5
+
+[node name="Hitbox" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource( 1 )
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+position = Vector2( 960, 0 )
+collision_layer = 8
+collision_mask = 5
+
+[node name="Hitbox" type="CollisionShape2D" parent="TopWall"]
+shape = SubResource( 3 )
+
+[node name="BottomWall" type="StaticBody2D" parent="."]
+position = Vector2( 960, 1080 )
+collision_layer = 8
+collision_mask = 5
+
+[node name="Hitbox" type="CollisionShape2D" parent="BottomWall"]
+shape = SubResource( 3 )
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2( 1920, 540 )
+collision_layer = 8
+collision_mask = 5
+
+[node name="Hitbox" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource( 1 )
+
+[node name="BrickSpawner" type="Node2D" parent="."]
+position = Vector2( 960, 300 )
+script = ExtResource( 4 )
+columns = 11
+BrickScene = ExtResource( 5 )
+
+[node name="PauseMenu" type="WindowDialog" parent="."]
+pause_mode = 2
+margin_left = -200.0
+margin_top = -75.0
+margin_right = -119.0
+margin_bottom = -35.0
+window_title = "teste"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -10.0
+margin_bottom = 10.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+alignment = 1
+
+[node name="Reset" type="Button" parent="PauseMenu/HBoxContainer"]
+margin_left = 139.0
+margin_right = 222.0
+margin_bottom = 20.0
+text = "Recomeçar"
+
+[node name="Exit" type="Button" parent="PauseMenu/HBoxContainer"]
+margin_left = 226.0
+margin_right = 261.0
+margin_bottom = 20.0
+text = "Sair"
+
+[node name="GUI" type="MarginContainer" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 60.0
+margin_bottom = 60.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI"]
+margin_right = 123.0
+margin_bottom = 40.0
+
+[node name="ShotsLabel" type="Label" parent="GUI/HBoxContainer"]
+margin_top = 13.0
+margin_right = 39.0
+margin_bottom = 27.0
+text = "Shots:"
+
+[node name="Shots" type="Label" parent="GUI/HBoxContainer"]
+margin_left = 43.0
+margin_top = 13.0
+margin_right = 51.0
+margin_bottom = 27.0
+text = "3"
+
+[node name="MultiplyLabel" type="Label" parent="GUI/HBoxContainer"]
+margin_left = 55.0
+margin_top = 13.0
+margin_right = 111.0
+margin_bottom = 27.0
+text = "Multiply:"
+
+[node name="Multiply" type="Label" parent="GUI/HBoxContainer"]
+margin_left = 115.0
+margin_top = 13.0
+margin_right = 123.0
+margin_bottom = 27.0
+text = "3"
+
+[connection signal="pressed" from="PauseMenu/HBoxContainer/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="pressed" from="PauseMenu/HBoxContainer/Exit" to="." method="_on_Exit_pressed"]
